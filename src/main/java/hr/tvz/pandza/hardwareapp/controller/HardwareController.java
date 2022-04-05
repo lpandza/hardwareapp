@@ -1,12 +1,13 @@
 package hr.tvz.pandza.hardwareapp.controller;
 
+import hr.tvz.pandza.hardwareapp.command.HardwareCommand;
 import hr.tvz.pandza.hardwareapp.dto.HardwareDTO;
 import hr.tvz.pandza.hardwareapp.service.HardwareService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -27,5 +28,12 @@ public class HardwareController {
     @GetMapping(params = "code")
     public HardwareDTO getHardwareByCode(@RequestParam String code){
         return hardwareService.findByCode(code);
+    }
+
+    @PostMapping
+    public ResponseEntity<HardwareDTO> save(@Valid @RequestBody HardwareCommand hardwareCommand){
+        return hardwareService.save(hardwareCommand)
+                .map((hardwareDTO)-> ResponseEntity.status(HttpStatus.CREATED).body(hardwareDTO))
+                .orElseGet(()->ResponseEntity.status(HttpStatus.CONFLICT).build());
     }
 }

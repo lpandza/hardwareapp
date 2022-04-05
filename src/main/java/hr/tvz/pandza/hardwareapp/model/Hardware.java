@@ -17,6 +17,10 @@ public class Hardware {
         this.quantity = quantity;
     }
 
+    public Hardware() {
+
+    }
+
     public String getCode() {
         return code;
     }
