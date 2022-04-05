@@ -24,7 +24,7 @@ public class HardwareServiceImpl implements HardwareService {
 
     @Override
     public HardwareDTO findByCode(String code) {
-        return repository.findByCode(code).map(this::mapHardwareToDTO).get();
+        return repository.findByCode(code).map(this::mapHardwareToDTO).orElse(null);
     }
 
     private HardwareDTO mapHardwareToDTO(Hardware hardware) {
