@@ -25,9 +25,11 @@ public class HardwareController {
         return hardwareService.findAll();
     }
 
-    @GetMapping(params = "code")
-    public HardwareDTO getHardwareByCode(@RequestParam String code){
-        return hardwareService.findByCode(code);
+    @GetMapping(path = "/{code}")
+    public ResponseEntity<HardwareDTO> getHardwareByCode(@PathVariable String code){
+        return hardwareService.findByCode(code)
+                .map((hardwareDTO) -> ResponseEntity.status(HttpStatus.OK).body(hardwareDTO))
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @PostMapping
@@ -35,5 +37,22 @@ public class HardwareController {
         return hardwareService.save(hardwareCommand)
                 .map((hardwareDTO)-> ResponseEntity.status(HttpStatus.CREATED).body(hardwareDTO))
                 .orElseGet(()->ResponseEntity.status(HttpStatus.CONFLICT).build());
+    }
+
+    @DeleteMapping(path = "/{code}")
+    public ResponseEntity<String> delete(@PathVariable String code){
+        if (hardwareService.deleteByCode(code)) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PutMapping(path = "/{code}")
+    public ResponseEntity<HardwareDTO> update(@PathVariable String code,
+                                              @Valid @RequestBody HardwareCommand hardwareCommand) {
+
+        return hardwareService.update(code, hardwareCommand)
+                .map((hardwareDTO)-> ResponseEntity.status(HttpStatus.OK).body(hardwareDTO))
+                .orElseGet(()->ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 }

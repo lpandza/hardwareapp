@@ -10,8 +10,12 @@ public interface HardwareService {
 
     List<HardwareDTO> findAll();
 
-    HardwareDTO findByCode(String code);
+    Optional<HardwareDTO> findByCode(String code);
 
     Optional<HardwareDTO> save(HardwareCommand hardwareCommand);
+
+    boolean deleteByCode(String code);
+
+    Optional<HardwareDTO> update(String code, HardwareCommand hardwareCommand);
 
 }

@@ -27,13 +27,24 @@ public class HardwareServiceImpl implements HardwareService {
     }
 
     @Override
-    public HardwareDTO findByCode(String code) {
-        return repository.findByCode(code).map(this::mapHardwareToDTO).orElse(null);
+    public Optional<HardwareDTO> findByCode(String code) {
+        return repository.findByCode(code).map(this::mapHardwareToDTO);
     }
 
     @Override
     public Optional<HardwareDTO> save(HardwareCommand hardwareCommand) {
         return repository.save(toHardware(hardwareCommand)).map(this::mapHardwareToDTO);
+    }
+
+    @Override
+    public boolean deleteByCode(String code) {
+        return repository.deleteByCode(code);
+    }
+
+    @Override
+    public Optional<HardwareDTO> update(String code, HardwareCommand hardwareCommand) {
+        return repository.update(code, toHardware(hardwareCommand))
+                .map(this::mapHardwareToDTO);
     }
 
     private HardwareDTO mapHardwareToDTO(Hardware hardware) {
