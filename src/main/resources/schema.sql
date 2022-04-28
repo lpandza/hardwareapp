@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS hardware (
+     id   INTEGER NOT NULL AUTO_INCREMENT,
+     code VARCHAR(255) NOT NULL,
+     name VARCHAR(128) NOT NULL,
+     price DOUBLE NOT NULL ,
+     type VARCHAR(128) NOT NULL ,
+     quantity INTEGER NOT NULL,
+     PRIMARY KEY (id)
+);

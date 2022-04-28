@@ -15,9 +15,9 @@ import java.util.Optional;
 public class HardwareRepositoryImpl implements HardwareRepository {
 
     private List<Hardware> HARDWARE = new ArrayList<>(Arrays.asList(
-            new Hardware("1111", "Razer DeathAdder", 300D, Type.OTHER, 3),
-            new Hardware("2222", "AMD Ryzen 5", 2000D, Type.CPU, 11),
-            new Hardware("3333", "Intel i5", 2000D, Type.CPU, 5)
+            new Hardware(1L, "1111", "Razer DeathAdderX", 300D, Type.OTHER, 3),
+            new Hardware(2L,"2222", "AMD Ryzen 5X", 2000D, Type.CPU, 11),
+            new Hardware(3L,"3333", "Intel i5X", 2000D, Type.CPU, 5)
     ));
 
     @Override
