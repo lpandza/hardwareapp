@@ -2,13 +2,14 @@ package hr.tvz.pandza.hardwareapp.service.impl;
 
 import hr.tvz.pandza.hardwareapp.command.HardwareCommand;
 import hr.tvz.pandza.hardwareapp.dto.HardwareDTO;
+import hr.tvz.pandza.hardwareapp.dto.ReviewDto;
 import hr.tvz.pandza.hardwareapp.model.Hardware;
 import hr.tvz.pandza.hardwareapp.repository.HardwareRepository;
 import hr.tvz.pandza.hardwareapp.service.HardwareService;
+import hr.tvz.pandza.hardwareapp.service.ReviewService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import java.beans.Beans;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,9 +17,11 @@ import java.util.Optional;
 public class HardwareServiceImpl implements HardwareService {
 
     private final HardwareRepository repository;
+    private final ReviewService reviewService;
 
-    public HardwareServiceImpl(HardwareRepository repository) {
+    public HardwareServiceImpl(HardwareRepository repository, ReviewService reviewService) {
         this.repository = repository;
+        this.reviewService = reviewService;
     }
 
     @Override
@@ -48,7 +51,8 @@ public class HardwareServiceImpl implements HardwareService {
     }
 
     private HardwareDTO mapHardwareToDTO(Hardware hardware) {
-        return new HardwareDTO(hardware.getCode(), hardware.getName(), hardware.getPrice());
+        List<ReviewDto> reviewDtoList = reviewService.findByHardwareCode(hardware.getCode());
+        return new HardwareDTO(hardware.getCode(), hardware.getName(), hardware.getPrice(), reviewDtoList);
     }
 
     private Hardware toHardware(HardwareCommand hardwareCommand){

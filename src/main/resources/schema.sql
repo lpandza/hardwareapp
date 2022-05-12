@@ -7,3 +7,13 @@ CREATE TABLE IF NOT EXISTS hardware (
      quantity INTEGER NOT NULL,
      PRIMARY KEY (id)
 );
+
+CREATE TABLE IF NOT EXISTS review (
+    id   INTEGER NOT NULL AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    text VARCHAR(255) NOT NULL,
+    score INTEGER NOT NULL ,
+    hardware_id INTEGER NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (hardware_id) REFERENCES hardware(id)
+);
