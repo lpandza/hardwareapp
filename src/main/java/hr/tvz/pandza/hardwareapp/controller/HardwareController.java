@@ -5,6 +5,7 @@ import hr.tvz.pandza.hardwareapp.dto.HardwareDTO;
 import hr.tvz.pandza.hardwareapp.service.HardwareService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -34,12 +35,14 @@ public class HardwareController {
     }
 
     @PostMapping
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<HardwareDTO> save(@Valid @RequestBody HardwareCommand hardwareCommand){
         return hardwareService.save(hardwareCommand)
                 .map((hardwareDTO)-> ResponseEntity.status(HttpStatus.CREATED).body(hardwareDTO))
                 .orElseGet(()->ResponseEntity.status(HttpStatus.CONFLICT).build());
     }
 
+    @Secured("ROLE_ADMIN")
     @DeleteMapping(path = "/{code}")
     public ResponseEntity<String> delete(@PathVariable String code){
         if (hardwareService.deleteByCode(code)) {
@@ -48,6 +51,7 @@ public class HardwareController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    @Secured("ROLE_ADMIN")
     @PutMapping(path = "/{code}")
     public ResponseEntity<HardwareDTO> update(@PathVariable String code,
                                               @Valid @RequestBody HardwareCommand hardwareCommand) {

@@ -3,6 +3,8 @@ package hr.tvz.pandza.hardwareapp.model;
 import hr.tvz.pandza.hardwareapp.enums.Type;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -21,7 +23,8 @@ public class Hardware {
     private Type type;
     private Integer quantity;
 
-    @OneToMany
+    @OneToMany(mappedBy = "hardware", orphanRemoval = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Review> review;
 
     public Hardware() {}
